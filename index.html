@@ -4,23 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>✨ 6/1 Smart Hub</title>
-  
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="6/1 Smart Hub">
-  <link rel="apple-touch-icon" href="https://img1.pic.in.th/images/6-1hub.png">
-
-  <link rel="icon" type="image/png" href="https://img1.pic.in.th/images/6-1hub.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="https://img1.pic.in.th/images/6-1hub.png">
-  <meta name="application-name" content="6/1 Smart Hub">
-  <meta name="msapplication-TileColor" content="#0f172a">
-
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+  <link rel="apple-touch-icon" href="https://img1.pic.in.th/images/6-1hub.png">
+
+  <link rel="icon" type="image/png" href="https://img1.pic.in.th/images/6-1hub.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://img1.pic.in.th/images/6-1hub.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="https://img1.pic.in.th/images/6-1hub.png">
+
+<meta name="application-name" content="6/1 Smart Hub">
+<meta name="msapplication-TileColor" content="#0f172a">
+
   <style>
     html { font-size: 15px; }
     body { 
@@ -30,776 +27,928 @@
     }
     .page-view { display: none !important; }
     .page-view.active { display: flex !important; }
+    .page-view-block { display: none !important; }
+    .page-view-block.active { display: block !important; }
+    .menu-content { display: none !important; }
+    .menu-content.active { display: block !important; }
+    /* แปะโค้ดนี้ไว้ในแท็ก <style> ของหน้าเว็บคุณ */
   </style>
-</head>
-<body class="min-h-screen text-slate-800 flex flex-col antialiased selection:bg-blue-500 selection:text-white">
 
-  <div id="loginPage" class="page-view flex-col justify-center items-center min-h-screen p-4 active animate-fade-in">
-    <div class="w-full max-w-md bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-slate-100/50">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="6/1 Smart Hub">
+
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen antialiased text-[1rem]">
+
+  <div id="splashPage" class="page-view hidden flex-grow flex flex-col items-center justify-center bg-slate-50">
+    <div class="text-blue-600 text-5xl animate-spin"><i class="fa-solid fa-circle-notch"></i></div>
+    <p class="text-slate-500 font-medium text-base mt-4">กำลังตรวจสอบสถานะการเข้าสู่ระบบ...</p>
+  </div>
+
+  <div id="loginPage" class="page-view active flex-grow items-center justify-center px-4 py-16">
+    <div class="bg-white/80 backdrop-blur-xl p-8 rounded-3xl shadow-2xl w-full max-w-lg border border-white/40 transform transition-all">
       <div class="text-center mb-8">
         <div class="w-24 h-24 rounded-2xl overflow-hidden mx-auto mb-5 shadow-lg shadow-blue-500/30">
           <img src="https://img1.pic.in.th/images/6-1hub.png" alt="6/1 Smart Hub Logo" class="w-full h-full object-cover">
         </div>
         <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">6/1 Smart Hub</h1>
         <p class="text-slate-500 text-base mt-3">✨ แหล่งรวมตารางเรียน ข่าวสาร และการบ้านห้อง 6/1</p>
-      </div>
+      </div> 
 
-      <div class="space-y-5">
+      <form onsubmit="handleLogin(event)" class="space-y-6">
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">ชื่อผู้ใช้งาน</label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400"><i class="fa-solid fa-user"></i></span>
-            <input type="text" id="username" class="w-full pl-11 pr-4 py-3.5 bg-slate-50/50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400" placeholder="กรอกชื่อผู้ใช้ของคุณ">
-          </div>
+          <label class="block text-slate-700 text-sm font-bold uppercase tracking-wider mb-2">👤 ชื่อผู้ใช้งาน (Username)</label>
+          <input type="text" id="username" placeholder="ตัวอย่าง: sw32400" required
+            class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 bg-slate-50/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-base">
         </div>
-
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2">รหัสผ่าน</label>
-          <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400"><i class="fa-solid fa-lock"></i></span>
-            <input type="password" id="password" class="w-full pl-11 pr-4 py-3.5 bg-slate-50/50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400" placeholder="••••••••">
-          </div>
+          <label class="block text-slate-700 text-sm font-bold uppercase tracking-wider mb-2">🔒 รหัสผ่าน (เลขที่นักเรียน)</label>
+          <input type="password" id="password" placeholder="ใส่เลขที่ห้องตัวเอง เช่น 9" required
+            class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 bg-slate-50/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-base">
         </div>
-
-        <div class="flex items-center justify-between pt-1">
-          <label class="flex items-center space-x-2.5 cursor-pointer select-none">
-            <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500/20">
-            <span class="text-sm text-slate-600 font-medium">จดจำฉันไว้ในระบบ</span>
+        
+        <div class="flex items-center justify-between py-1">
+          <label class="flex items-center space-x-3 cursor-pointer group">
+            <input type="checkbox" id="rememberMe" class="w-5 h-5 rounded-lg border-slate-300 text-blue-600 focus:ring-blue-500 transition-all accent-blue-600 cursor-pointer">
+            <span class="text-slate-600 text-sm font-medium group-hover:text-slate-900 select-none">จดจำฉันในระบบ (ไม่ต้องเข้าสู่ระบบซ้ำ) 🔑</span>
           </label>
         </div>
 
-        <button onclick="handleLogin()" class="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center space-x-2 text-base">
-          <span>เข้าสู่ระบบ</span>
-          <i class="fa-solid fa-arrow-right text-sm"></i>
+        <button type="submit" id="loginBtn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-4 rounded-2xl transition-all shadow-lg shadow-blue-500/20 text-lg active:scale-[0.98]">
+          เข้าสู่ระบบ 🚀
         </button>
-      </div>
+      </form>
+      <div id="loginError" class="mt-4 text-center text-base text-rose-500 font-medium hidden p-3 bg-rose-50 rounded-xl"></div>
     </div>
   </div>
 
-  <div id="dashboardPage" class="page-view flex-col min-h-screen">
+
+  <nav id="systemNavbar" class="hidden bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 shadow-xs">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+
+<div class="flex items-center justify-between h-20">
+
+  <div class="flex items-center space-x-3 cursor-pointer"
+       onclick="switchMenu('home')">
+
+    <img src="https://img1.pic.in.th/images/6-1hub.png" alt="6/1 Smart Hub Logo" class="h-10 w-auto object-contain rounded-xl">
+
+    <span class="font-extrabold text-lg md:text-2xl bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+      6/1 Smart Hub
+    </span>
+
+  </div>
+
+  <div class="hidden md:flex items-center space-x-1 bg-slate-100/80 p-1.5 rounded-2xl">
+
+    <button id="menu-btn-home"
+            onclick="switchMenu('home')"
+            class="px-3.5 py-2 rounded-xl text-sm font-bold transition-all flex items-center space-x-1.5 text-blue-600 bg-white shadow-xs">
+      <i class="fa-solid fa-house"></i>
+      <span>หน้าแรก</span>
+    </button>
+
+    <button id="menu-btn-homework"
+            onclick="switchMenu('homework')"
+            class="px-3.5 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-1.5 text-slate-600 hover:text-slate-900">
+      <i class="fa-solid fa-book"></i>
+      <span>การบ้าน</span>
+    </button>
+
+    <button id="menu-btn-news"
+            onclick="switchMenu('news')"
+            class="px-3.5 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-1.5 text-slate-600 hover:text-slate-900">
+      <i class="fa-solid fa-bullhorn"></i>
+      <span>ประกาศ</span>
+    </button>
+
+    <button id="menu-btn-students"
+            onclick="switchMenu('students')"
+            class="px-3.5 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-1.5 text-slate-600 hover:text-slate-900">
+      <i class="fa-solid fa-users"></i>
+      <span>รายชื่อ</span>
+    </button>
+
+    <button id="menu-btn-contact"
+            onclick="switchMenu('contact')"
+            class="px-3.5 py-2 rounded-xl text-sm font-medium transition-all flex items-center space-x-1.5 text-slate-600 hover:text-slate-900">
+      <i class="fa-brands fa-line text-emerald-500"></i>
+      <span>ติดต่อหัวหน้า</span>
+    </button>
+
+  </div>
+
+  <div class="flex items-center space-x-3">
+
+    <button
+      onclick="toggleMobileMenu()"
+      class="md:hidden p-3 rounded-xl bg-slate-100 hover:bg-slate-200 transition"
+    >
+      <i class="fa-solid fa-bars text-lg"></i>
+    </button>
+
+    <div class="text-right hidden lg:block">
+      <p class="text-base font-bold text-slate-900"
+         id="userDisplayName">
+         👤 Loading...
+      </p>
+
+      <p class="text-xs text-blue-600 font-bold bg-blue-50 px-3 py-1 rounded-full inline-block mt-0.5"
+         id="userRoleTag">
+         Student
+      </p>
+    </div>
+
+    <button onclick="logout()"
+            class="text-slate-400 hover:text-rose-500 p-2.5 text-xl transition-colors bg-slate-50 hover:bg-rose-50 rounded-xl"
+            title="ออกจากระบบ">
+      <i class="fa-solid fa-power-off"></i>
+    </button>
+
+  </div>
+
+</div>
+
+
+  </div>
+
+</nav>
+
+<div id="mobileMenuOverlay"
+     onclick="toggleMobileMenu()"
+     class="hidden fixed inset-0 bg-black/40 z-40">
+</div>
+
+<div id="mobileMenu"
+     class="fixed top-0 left-0 h-full w-72 bg-white shadow-2xl z-50 transform -translate-x-full transition-transform duration-300">
+
+  <div class="bg-gradient-to-r from-blue-600 to-pink-500 p-6 text-white">
+
+
+<div class="flex items-center justify-between">
+
+  <div>
+    <h2 class="font-bold text-xl">
+      6/1 Smart Hub
+    </h2>
+
+    <p class="text-sm opacity-90">
+      ห้องเรียนอัจฉริยะ ม.6/1
+    </p>
+  </div>
+
+  <button onclick="toggleMobileMenu()">
+    <i class="fa-solid fa-xmark text-xl"></i>
+  </button>
+
+</div>
+
+
+  </div>
+
+  <div class="p-3 space-y-2">
+
+
+<button onclick="switchMenu('home');toggleMobileMenu();"
+        class="w-full text-left p-3 rounded-xl hover:bg-slate-100">
+  🏠 หน้าแรก
+</button>
+
+<button onclick="switchMenu('homework');toggleMobileMenu();"
+        class="w-full text-left p-3 rounded-xl hover:bg-slate-100">
+  📚 การบ้าน
+</button>
+
+<button onclick="switchMenu('news');toggleMobileMenu();"
+        class="w-full text-left p-3 rounded-xl hover:bg-slate-100">
+  📢 ประกาศ
+</button>
+
+<button onclick="switchMenu('students');toggleMobileMenu();"
+        class="w-full text-left p-3 rounded-xl hover:bg-slate-100">
+  👥 รายชื่อ
+</button>
+
+<button onclick="switchMenu('contact');toggleMobileMenu();"
+        class="w-full text-left p-3 rounded-xl hover:bg-slate-100">
+  💬 ติดต่อหัวหน้า
+</button>
+
+
+  </div>
+
+</div>
+
+
+
+  <div id="dashboardPage" class="page-view-block hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8">
     
-    <nav id="systemNavbar" class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100 p-4 shadow-sm flex justify-between items-center px-6">
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchMenu('home')">
-        <img src="https://img1.pic.in.th/images/6-1hub.png" alt="6/1 Smart Hub Logo" class="h-10 w-auto object-contain rounded-xl">
-        <span class="font-extrabold text-lg md:text-2xl bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">6/1 Smart Hub</span>
-      </div>
+    <div id="menu-content-home" class="menu-content active space-y-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-      <div class="hidden md:flex space-x-1 font-medium text-slate-600">
-        <button onclick="switchMenu('home')" id="nav-home" class="px-4 py-2 rounded-xl transition-all flex items-center space-x-2 hover:bg-slate-50 [&.active]:bg-blue-50 [&.active]:text-blue-600 active">
-          <i class="fa-solid fa-house"></i> <span>หน้าแรก</span>
-        </button>
-        <button onclick="switchMenu('homework')" id="nav-homework" class="px-4 py-2 rounded-xl transition-all flex items-center space-x-2 hover:bg-slate-50 [&.active]:bg-blue-50 [&.active]:text-blue-600">
-          <i class="fa-solid fa-book-open"></i> <span>การบ้าน</span>
-        </button>
-        <button onclick="switchMenu('announcements')" id="nav-announcements" class="px-4 py-2 rounded-xl transition-all flex items-center space-x-2 hover:bg-slate-50 [&.active]:bg-blue-50 [&.active]:text-blue-600">
-          <i class="fa-solid fa-bullhorn"></i> <span>ประกาศห้อง</span>
-        </button>
-        <button onclick="switchMenu('cleaning')" id="nav-cleaning" class="px-4 py-2 rounded-xl transition-all flex items-center space-x-2 hover:bg-slate-50 [&.active]:bg-blue-50 [&.active]:text-blue-600">
-          <i class="fa-solid fa-broom"></i> <span>เวรทำความสะอาด</span>
-        </button>
-        <button onclick="switchMenu('contact')" id="nav-contact" class="px-4 py-2 rounded-xl transition-all flex items-center space-x-2 hover:bg-slate-50 [&.active]:bg-blue-50 [&.active]:text-blue-600">
-          <i class="fa-solid fa-paper-plane"></i> <span>ติดต่อหัวหน้าห้อง</span>
-        </button>
-      </div>
-
-      <div class="flex items-center space-x-4">
-        <div class="hidden sm:flex flex-col text-right">
-          <span class="font-bold text-slate-800" id="userDisplayName">User</span>
-          <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md self-end" id="userDisplayRole">Student</span>
-        </div>
-        <button onclick="logout()" class="hidden md:flex p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all" title="ออกจากระบบ">
-          <i class="fa-solid fa-power-off text-lg"></i>
-        </button>
-        <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-all">
-          <i class="fa-solid fa-bars text-xl"></i>
-        </button>
-      </div>
-    </nav>
-
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 overflow-x-hidden">
-      
-      <div id="menu-home" class="menu-view space-y-6 animate-fade-in">
-        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h2 class="text-2xl font-black">สวัสดีวัน<span id="currentDayThai">...</span> 👋</h2>
-            <p class="opacity-90 text-sm mt-1">ยินดีต้อนรับคุณ <span class="font-bold" id="welcomeName">...</span> เข้าสู่ระบบจัดการห้องเรียน 6/1</p>
+        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-xs flex items-center justify-between group hover:shadow-md transition-all">
+          <div class="space-y-2">
+            <p class="text-sm font-medium text-slate-400 uppercase tracking-wider">งานค้างในบอร์ดขณะนี้</p>
+            <div class="flex items-baseline space-x-2">
+              <span id="statActiveJobs" class="text-4xl font-black text-slate-900 tracking-tight">-</span>
+              <span class="text-sm font-semibold text-slate-500">รายการ</span>
+            </div>
+            <p class="text-xs text-slate-400"><span class="text-rose-500 font-bold mr-1"><i class="fa-solid fa-fire animate-pulse"></i></span> มีงานด่วนต้องรีบส่ง</p>
           </div>
-          <div class="flex bg-white/10 backdrop-blur-md p-1 rounded-2xl border border-white/10 w-full md:w-auto overflow-x-auto">
-            <button onclick="loadSchedule('Monday')" id="btn-Mon" class="day-tab px-3.5 py-2 rounded-xl text-sm font-bold transition-all whitespace-nowrap [&.active]:bg-white [&.active]:text-blue-600">จ.</button>
-            <button onclick="loadSchedule('Tuesday')" id="btn-Tue" class="day-tab px-3.5 py-2 rounded-xl text-sm font-bold transition-all whitespace-nowrap [&.active]:bg-white [&.active]:text-pink-600">อ.</button>
-            <button onclick="loadSchedule('Wednesday')" id="btn-Wed" class="day-tab px-3.5 py-2 rounded-xl text-sm font-bold transition-all whitespace-nowrap [&.active]:bg-white [&.active]:text-green-600">พ.</button>
-            <button onclick="loadSchedule('Thursday')" id="btn-Thu" class="day-tab px-3.5 py-2 rounded-xl text-sm font-bold transition-all whitespace-nowrap [&.active]:bg-white [&.active]:text-orange-600">พฤ.</button>
-            <button onclick="loadSchedule('Friday')" id="btn-Fri" class="day-tab px-3.5 py-2 rounded-xl text-sm font-bold transition-all whitespace-nowrap [&.active]:bg-white [&.active]:text-blue-500">ศ.</button>
-          </div>
+          <div class="bg-indigo-50 text-indigo-600 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-indigo-600 group-hover:text-white shadow-sm transition-all"><i class="fa-solid fa-book-open"></i></div>
         </div>
 
-        <div class="grid grid-cols-1 gap-4" id="scheduleContainer">
+        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-xs flex items-center justify-between group hover:shadow-md transition-all">
+          <div class="space-y-2">
+            <p class="text-sm font-medium text-slate-400 uppercase tracking-wider">ข่าวประชาสัมพันธ์</p>
+            <div class="flex items-baseline space-x-2">
+              <span id="statNewsCount" class="text-4xl font-black text-slate-900 tracking-tight">-</span>
+              <span class="text-sm font-semibold text-slate-500">ประกาศ</span>
+            </div>
+            <p class="text-xs text-slate-400"><span class="text-amber-500 font-bold mr-1"><i class="fa-solid fa-star"></i></span> อัปเดตล่าสุดสัปดาห์นี้</p>
           </div>
+          <div class="bg-emerald-50 text-emerald-600 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-emerald-600 group-hover:text-white shadow-sm transition-all"><i class="fa-solid fa-bullhorn"></i></div>
+        </div>
       </div>
 
-      <div id="menu-homework" class="menu-view space-y-6 hidden animate-fade-in">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+      <div class="bg-white p-6 rounded-3xl shadow-xs border border-slate-100 mb-6">
+
+  <div class="flex items-center justify-between mb-4">
+
+    <h2 class="text-xl font-bold text-slate-900">
+      📢 ประกาศล่าสุด
+    </h2>
+
+    <button
+      onclick="switchMenu('news')"
+      class="text-sm text-blue-600 font-semibold"
+    >
+      ดูทั้งหมด →
+    </button>
+
+  </div>
+
+  <div id="homeAnnouncementList" class="space-y-3">
+    <div class="text-center py-4 text-slate-400">
+      กำลังโหลดประกาศ...
+    </div>
+  </div>
+
+</div>
+
+      <div class="bg-white p-6 rounded-3xl shadow-xs border border-slate-100">
+        <div class="flex items-center space-x-2 text-rose-600 font-bold text-xl mb-4 border-b border-slate-50 pb-3">
+          <span>🔥</span><h3>งานด่วน! ใกล้กำหนดส่ง (ภายใน 3 วันนี้)</h3>
+        </div>
+        <div id="urgentGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        <div id="noUrgentAlert" class="hidden text-center py-8 text-slate-400 border border-dashed border-slate-200 rounded-2xl">🌴 ช่วงนี้ไม่มีงานด่วนเลย สบายใจได้!</div>
+      </div>
+
+      <div class="bg-white p-6 rounded-3xl shadow-xs border border-slate-100 flex flex-col">
+        <div class="flex items-center space-x-2 mb-4 pb-3 border-b border-slate-50">
+          <span class="text-2xl">🧹</span>
           <div>
-            <h2 class="text-xl font-extrabold text-slate-900">📋 รายการบอร์ดการบ้านห้อง 6/1</h2>
-            <p class="text-slate-500 text-xs mt-0.5">รวมงาน โปรเจกต์ และการสอบทั้งหมด</p>
-          </div>
-          <div class="flex items-center space-x-3 w-full sm:w-auto">
-            <label class="flex items-center space-x-2 cursor-pointer bg-amber-50 text-amber-700 px-3 py-2 rounded-xl font-semibold border border-amber-100 text-sm">
-              <input type="checkbox" id="urgentFilter" onchange="renderAssignments()" class="rounded text-amber-600 focus:ring-amber-500/20">
-              <span>🔥 กรองเฉพาะงานด่วน (ส่งใน 3 วัน)</span>
-            </label>
-            <button onclick="openAssignmentModal()" class="flex-1 sm:flex-none px-4 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm hover:bg-blue-700 transition-all shadow-md shadow-blue-500/10">
-              <i class="fa-solid fa-plus mr-1"></i> เพิ่มการบ้าน
-            </button>
+            <h2 class="text-xl font-bold text-slate-900">เวรทำความสะอาดประจำวัน (ณ ห้อง 233)</h2>
+            <p class="text-xs text-slate-400 mt-0.5">ช่วยกันรักษาความสะอาดเพื่อห้องเรียนที่น่าอยู่ของเรากันนะทุกคน ✨</p>
           </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="assignmentsGrid">
+        <div id="cleaningDutyGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 py-2"></div>
+      </div>    
+
+      <div class="bg-white p-6 rounded-3xl shadow-xs border border-slate-100 flex flex-col">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-50">
+          <div class="flex items-center space-x-2">
+            <span class="text-2xl">🗓️</span><h2 class="text-xl font-bold text-slate-900">ตารางเรียนประจำวัน</h2>
           </div>
+          <select id="daySelector" onchange="handleDayChange(this.value)" class="bg-slate-50 border border-slate-200 text-sm font-semibold rounded-xl px-4 py-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="Monday">📅 วันจันทร์</option>
+            <option value="Tuesday">📅 วันอังคาร</option>
+            <option value="Wednesday">📅 วันพุธ</option>
+            <option value="Thursday">📅 วันพฤหัสบดี</option>
+            <option value="Friday">📅 วันศุกร์</option>
+          </select>
+        </div>
+        <div class="overflow-x-auto rounded-2xl border border-slate-100">
+          <table class="w-full text-left border-collapse min-w-[500px]">
+            <thead>
+              <tr class="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100">
+                <th class="py-3.5 px-4 text-center w-20">คาบ</th>
+                <th class="py-3.5 px-4 w-36">เวลา</th>
+                <th class="py-3.5 px-4">วิชาเรียน</th>
+                <th class="py-3.5 px-4">ผู้สอน</th>
+                <th class="py-3.5 px-4 text-center">ห้อง</th>
+              </tr>
+            </thead>
+            <tbody id="scheduleTableBody" class="divide-y divide-slate-50 text-base"></tbody>
+          </table>
+        </div>
       </div>
 
-      <div id="menu-announcements" class="menu-view space-y-6 hidden animate-fade-in">
-        <div class="flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-          <div>
-            <h2 class="text-xl font-extrabold text-slate-900">📢 กระดานข่าวสารประชาสัมพันธ์</h2>
-            <p class="text-slate-500 text-xs mt-0.5">ติดตามข่าวสาร อัปเดตเหตุการณ์สำคัญของห้อง</p>
+    </div>
+
+    <div id="menu-content-homework" class="menu-content space-y-6">
+      <div class="bg-white p-6 rounded-3xl shadow-xs border border-slate-100">
+        <div class="flex items-center justify-between mb-6 pb-2 border-b border-slate-50">
+          <div class="flex items-center space-x-2">
+            <span class="text-2xl">📝</span><h2 class="text-xl font-bold text-slate-900">บอร์ดการบ้านห้อง 6/1 ทั้งหมด</h2>
           </div>
-          <button id="addAnnouncementBtn" onclick="openAnnouncementModal()" class="hidden px-4 py-2.5 bg-indigo-600 text-white font-bold rounded-xl text-sm hover:bg-indigo-700 transition-all shadow-md shadow-indigo-500/10">
-            <i class="fa-solid fa-bullhorn mr-1"></i> เพิ่มประกาศใหม่
+          <button onclick="navigateToFormPage()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-bold py-3 px-5 rounded-xl shadow-md">✨ แจ้งงานเพิ่ม</button>
+        </div>
+        <div id="assignmentGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+    </div>
+
+    <div id="menu-content-news" class="menu-content space-y-6">
+      <div class="bg-white p-6 rounded-3xl shadow-xs border border-slate-100 max-w-2xl mx-auto">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-50">
+          <div class="flex items-center space-x-2">
+            <span class="text-2xl">📢</span><h2 class="text-xl font-bold text-slate-900">ข่าวสารประชาสัมพันธ์ในห้อง</h2>
+          </div>
+          <button id="addAnnBtn" onclick="openAnnPrompt()" class="hidden bg-emerald-50 text-emerald-600 text-sm font-bold py-2 px-3.5 rounded-xl">➕ เขียนประกาศ</button>
+        </div>
+        <div id="announcementList" class="space-y-4"></div>
+      </div>
+    </div>
+
+    <div id="menu-content-students" class="menu-content space-y-6">
+      <div class="bg-white p-6 rounded-3xl shadow-xs border border-slate-100">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 pb-4 border-b border-slate-50">
+          <div class="flex items-center space-x-2">
+            <span class="text-2xl">👨‍🎓</span><h2 class="text-xl font-bold text-slate-900">รายชื่อนักเรียนห้อง 6/1</h2>
+          </div>
+          <input type="text" id="searchStudentInput" oninput="filterStudents(this.value)" placeholder="ค้นหาชื่อ หรือชื่อเล่น..." class="w-full sm:w-72 pl-4 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm">
+        </div>
+        <div class="overflow-x-auto rounded-2xl border border-slate-100 max-h-[500px]">
+          <table class="w-full text-left border-collapse min-w-[500px]">
+            <thead class="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider sticky top-0">
+              <tr>
+                <th class="py-3.5 px-6 text-center w-24">เลขที่</th>
+                <th class="py-3.5 px-6">ชื่อ-นามสกุล</th>
+                <th class="py-3.5 px-6 w-48">ชื่อเล่น</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody" class="divide-y divide-slate-50 text-base"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="menu-content-contact" class="menu-content space-y-6">
+      <div class="bg-white p-6 rounded-3xl shadow-xs border border-slate-100 max-w-xl mx-auto">
+        <div class="text-center mb-6 border-b border-slate-100 pb-4">
+          <div class="inline-flex bg-emerald-50 text-emerald-600 p-4 rounded-2xl text-3xl mb-3"><i class="fa-brands fa-line"></i></div>
+          <h2 class="text-2xl font-bold text-slate-900">📬 ส่งข้อความหาหัวหน้าห้อง</h2>
+          <p class="text-xs text-slate-400 mt-1">เรื่องร้องเรียน แจ้งลากิจ ลาป่วย หรือข้อเสนอแนะต่างๆ ข้อความนี้จะส่งตรงเข้า LINE ทันที</p>
+        </div>
+        
+        <form onsubmit="sendContactToLine(event)" class="space-y-5">
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">👤 ชื่อผู้ส่ง (ดึงข้อมูลอัตโนมัติ)</label>
+            <input type="text" id="contactSenderName" readonly class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-100 text-slate-500 text-base font-medium focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-500 mb-2">✏️ เรื่องที่ต้องการติดต่อ</label>
+            <textarea id="contactMessage" rows="5" required placeholder="พิมพ์รายละเอียดเรื่องที่ต้องการติดต่อหัวหน้าห้องได้เลย..." 
+              class="w-full px-4 py-3 rounded-xl border border-slate-200 text-base bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"></textarea>
+          </div>
+          <button type="submit" id="sendLineBtn" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-md active:scale-[0.99] text-base">
+            ส่งข้อความเข้า LINE หัวหน้าห้อง 🚀
           </button>
-        </div>
-        <div class="space-y-4 max-w-3xl mx-auto" id="announcementsList">
-          </div>
-      </div>
-
-      <div id="menu-cleaning" class="menu-view space-y-6 hidden animate-fade-in">
-        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 text-center max-w-xl mx-auto">
-          <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto text-emerald-500 text-2xl mb-4"><i class="fa-solid fa-broom"></i></div>
-          <h2 class="text-2xl font-extrabold text-slate-900">🪣 ตารางเวรทำความสะอาดห้องเรียน</h2>
-          <p class="text-slate-500 text-sm mt-1">กรุณารักษาสิทธิ์และหน้าที่ ร่วมกันรักษาความสะอาดห้องเรียน</p>
-          <div class="flex justify-center gap-1.5 mt-6 bg-slate-50 p-1 rounded-2xl border border-slate-100">
-            <button onclick="loadCleaning('วันจันทร์')" id="clean-Mon" class="clean-tab px-3 py-2 rounded-xl text-sm font-bold transition-all flex-1 [&.active]:bg-white [&.active]:shadow-sm">จ.</button>
-            <button onclick="loadCleaning('วันอังคาร')" id="clean-Tue" class="clean-tab px-3 py-2 rounded-xl text-sm font-bold transition-all flex-1 [&.active]:bg-white [&.active]:shadow-sm">อ.</button>
-            <button onclick="loadCleaning('วันพุธ')" id="clean-Wed" class="clean-tab px-3 py-2 rounded-xl text-sm font-bold transition-all flex-1 [&.active]:bg-white [&.active]:shadow-sm">พ.</button>
-            <button onclick="loadCleaning('วันพฤหัสบดี')" id="clean-Thu" class="clean-tab px-3 py-2 rounded-xl text-sm font-bold transition-all flex-1 [&.active]:bg-white [&.active]:shadow-sm">พฤ.</button>
-            <button onclick="loadCleaning('วันศุกร์')" id="clean-Fri" class="clean-tab px-3 py-2 rounded-xl text-sm font-bold transition-all flex-1 [&.active]:bg-white [&.active]:shadow-sm">ศ.</button>
-          </div>
-          <div class="mt-6 border-t border-slate-100 pt-4" id="cleaningContainer">
-            </div>
-        </div>
-      </div>
-
-      <div id="menu-contact" class="menu-view space-y-6 hidden animate-fade-in">
-        <div class="max-w-xl mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-5">
-          <div class="text-center">
-            <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto text-blue-600 text-2xl mb-4"><i class="fa-solid fa-paper-plane"></i></div>
-            <h2 class="text-xl font-black text-slate-900">📥 กล่องรับเรื่องติดต่อหัวหน้าห้อง</h2>
-            <p class="text-slate-500 text-sm mt-1">ส่งข้อความแจ้งเรื่องร้องเรียน ลาป่วย หรือแจ้งปัญหา ระบบจะยิงเข้าไลน์ของหัวหน้าห้องโดยตรงทันทีแบบ Real-time</p>
-          </div>
-          <div class="space-y-4 pt-2">
-            <div>
-              <label class="block text-sm font-semibold text-slate-700 mb-2">เนื้อความเรื่องที่ต้องการติดต่อ</label>
-              <textarea id="contactMessage" rows="5" class="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400" placeholder="พิมพ์ข้อความที่ต้องการแจ้ง เช่น วันนี้ขอลาป่วยเนื่องจากเป็นไข้หวัด..."></textarea>
-            </div>
-            <button onclick="handleSendContact()" id="btnSubmitContact" class="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-2xl shadow-md hover:opacity-95 transition-all flex items-center justify-center space-x-2">
-              <i class="fa-solid fa-paper-plane text-sm"></i> <span>ส่งคำร้องตรงถึงหัวหน้าห้อง</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-    </main>
-  </div>
-
-  <div id="mobileMenuOverlay" class="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm hidden transition-all" onclick="toggleMobileMenu()"></div>
-  <div id="mobileMenu" class="fixed top-0 left-0 bottom-0 z-50 w-72 bg-white p-5 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col justify-between">
-    <div class="space-y-6">
-      <div class="flex items-center space-x-3 pb-4 border-b border-slate-100">
-        <img src="https://img1.pic.in.th/images/6-1hub.png" alt="6/1 Smart Hub Logo" class="h-9 w-auto object-contain rounded-xl">
-        <span class="font-extrabold text-xl text-slate-900">6/1 Smart Hub</span>
-      </div>
-      <div class="flex flex-col space-y-1">
-        <button onclick="switchMenu('home')" id="mob-home" class="px-4 py-3 rounded-xl text-left font-semibold text-slate-600 transition-all flex items-center space-x-3 [&.active]:bg-blue-50 [&.active]:text-blue-600 active">
-          <i class="fa-solid fa-house w-5 text-center"></i> <span>หน้าแรก</span>
-        </button>
-        <button onclick="switchMenu('homework')" id="mob-homework" class="px-4 py-3 rounded-xl text-left font-semibold text-slate-600 transition-all flex items-center space-x-3 [&.active]:bg-blue-50 [&.active]:text-blue-600">
-          <i class="fa-solid fa-book-open w-5 text-center"></i> <span>การบ้าน</span>
-        </button>
-        <button onclick="switchMenu('announcements')" id="mob-announcements" class="px-4 py-3 rounded-xl text-left font-semibold text-slate-600 transition-all flex items-center space-x-3 [&.active]:bg-blue-50 [&.active]:text-blue-600">
-          <i class="fa-solid fa-bullhorn w-5 text-center"></i> <span>ประกาศห้อง</span>
-        </button>
-        <button onclick="switchMenu('cleaning')" id="mob-cleaning" class="px-4 py-3 rounded-xl text-left font-semibold text-slate-600 transition-all flex items-center space-x-3 [&.active]:bg-blue-50 [&.active]:text-blue-600">
-          <i class="fa-solid fa-broom w-5 text-center"></i> <span>เวรทำความสะอาด</span>
-        </button>
-        <button onclick="switchMenu('contact')" id="mob-contact" class="px-4 py-3 rounded-xl text-left font-semibold text-slate-600 transition-all flex items-center space-x-3 [&.active]:bg-blue-50 [&.active]:text-blue-600">
-          <i class="fa-solid fa-paper-plane w-5 text-center"></i> <span>ติดต่อหัวหน้าห้อง</span>
-        </button>
+        </form>
+        <div id="contactStatusAlert" class="mt-4 text-center text-sm font-medium hidden p-3 rounded-xl"></div>
       </div>
     </div>
-    <div class="border-t border-slate-100 pt-4 flex flex-col space-y-3">
-      <div class="flex items-center space-x-3 px-2">
-        <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500 text-lg font-bold"><i class="fa-solid fa-user"></i></div>
-        <div class="flex flex-col">
-          <span class="font-bold text-slate-800 text-sm" id="mobUserDisplayName">User</span>
-          <span class="text-xs text-blue-600" id="mobUserDisplayRole">Student</span>
-        </div>
-      </div>
-      <button onclick="logout()" class="w-full py-3 bg-red-50 text-red-600 font-bold rounded-xl text-sm flex items-center justify-center space-x-2">
-        <i class="fa-solid fa-power-off"></i> <span>ออกจากระบบ</span>
-      </button>
-    </div>
+
   </div>
 
-  <div id="assignmentModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl border border-slate-100 space-y-4">
-      <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-        <h3 class="text-lg font-black text-slate-900" id="assignmentModalTitle">เพิ่มการบ้านใหม่</h3>
-        <button onclick="closeAssignmentModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+  <div id="formPage" class="page-view hidden flex-grow items-center justify-center px-4 py-12">
+    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+      <div class="bg-slate-50 px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+        <h3 class="font-bold text-slate-900 text-lg" id="formPageTitle">📝 บันทึกข้อมูลการบ้าน</h3>
+        <button onclick="navigateToDashboardPage()" class="text-slate-500 bg-slate-100 px-4 py-2 rounded-xl text-sm font-bold">🔙 กลับ</button>
       </div>
-      <input type="hidden" id="asgId">
-      <div class="space-y-4">
+      <form id="assignmentForm" onsubmit="submitAssignment(event)" class="p-6 space-y-6">
+        <input type="hidden" id="asnId">
         <div>
-          <label class="block text-xs font-bold text-slate-600 mb-1.5">วิชา</label>
-          <input type="text" id="asgSubject" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500" placeholder="เช่น คณิตศาสตร์เพิ่มเติม">
+          <label class="block text-xs font-bold text-slate-500 mb-2">📚 วิชาเรียน</label>
+          <select id="asnSubject" required class="w-full px-4 py-3 rounded-xl border border-slate-200 text-base bg-white">
+            <option value="" disabled selected>-- กรุณาเลือกวิชา --</option>
+            <option value="คณิตศาสตร์พื้นฐาน (Math)">คณิตศาสตร์พื้นฐาน (Math)</option>
+            <option value="คณิตศาสตร์เพิ่มเติม (Add math)">คณิตศาสตร์เพิ่มเติม (Add math)</option>
+            <option value="ฟิสิกส์">ฟิสิกส์</option>
+            <option value="เคมี">เคมี</option>
+            <option value="ชีววิทยา (Biology)">ชีววิทยา (Biology)</option>
+            <option value="ภาษาไทย">ภาษาไทย</option>
+            <option value="ภาษาอังกฤษ">ภาษาอังกฤษ</option>
+            <option value="สังคมศึกษา">สังคมศึกษา</option>
+            <option value="วิชาอื่นๆ / กิจกรรมพิเศษ">วิชาอื่นๆ / กิจกรรมพิเศษ</option>
+          </select>
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-600 mb-1.5">หัวข้องาน/ชื่อการบ้าน</label>
-          <input type="text" id="asgTitle" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500" placeholder="เช่น แบบฝึกหัดที่ 2.3 เรื่องแคลคูลัส">
+          <label class="block text-xs font-bold text-slate-500 mb-2">📌 ชื่องาน/หัวข้อ</label>
+          <input type="text" id="asnTitle" required class="w-full px-4 py-3 rounded-xl border border-slate-200">
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-600 mb-1.5">รายละเอียดความคืบหน้าเพิ่มเติม</label>
-          <textarea id="asgDesc" rows="3" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500" placeholder="เช่น ทำใส่สมุดหน้า 45 ข้อ 1-5 หรือแนบลิงก์ชีท..."></textarea>
+          <label class="block text-xs font-bold text-slate-500 mb-2">🔍 รายละเอียดเพิ่มเติม</label>
+          <textarea id="asnDesc" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-200"></textarea>
         </div>
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-bold text-slate-600 mb-1.5">คะแนนเต็ม (ถ้ามี)</label>
-            <input type="text" id="asgScore" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500" placeholder="10">
+            <label class="block text-xs font-bold text-slate-500 mb-2">💯 คะแนนเต็ม</label>
+            <input type="text" id="asnMaxScore" class="w-full px-4 py-3 rounded-xl border border-slate-200">
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-600 mb-1.5">วันกำหนดส่งงาน</label>
-            <input type="date" id="asgDueDate" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+            <label class="block text-xs font-bold text-slate-500 mb-2">📆 กำหนดส่ง</label>
+            <input type="date" id="asnDueDate" required class="w-full px-4 py-3 rounded-xl border border-slate-200">
           </div>
         </div>
-      </div>
-      <div class="flex justify-end space-x-2 pt-2">
-        <button onclick="closeAssignmentModal()" class="px-4 py-2.5 bg-slate-100 text-slate-600 text-sm font-bold rounded-xl">ยกเลิก</button>
-        <button onclick="submitAssignmentForm()" class="px-5 py-2.5 bg-blue-600 text-white text-sm font-bold rounded-xl shadow-md">บันทึกข้อมูล</button>
-      </div>
+        <div class="pt-2 flex space-x-4">
+          <button type="button" onclick="navigateToDashboardPage()" class="flex-1 bg-slate-100 py-3.5 rounded-xl font-semibold">ยกเลิก</button>
+          <button type="submit" id="saveAsnBtn" class="flex-1 bg-blue-600 text-white py-3.5 rounded-xl font-semibold">บันทึกข้อมูล 💾</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <div id="announcementModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl border border-slate-100 space-y-4">
-      <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-        <h3 class="text-lg font-black text-slate-900">กระจายข่าวสารใหม่</h3>
-        <button onclick="closeAnnouncementModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      <div class="space-y-3">
-        <label class="block text-xs font-bold text-slate-600">รายละเอียดข่าวสารหรือประกาศห้อง</label>
-        <textarea id="annContent" rows="4" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500" placeholder="ระบุข่าวสารที่ต้องการกระจายไปยังบอร์ด เช่น พรุ่งนี้คาบแรกคุณครูขอนัดส่งงานก่อนเข้าแถว..."></textarea>
-      </div>
-      <div class="flex justify-end space-x-2 pt-2">
-        <button onclick="closeAnnouncementModal()" class="px-4 py-2.5 bg-slate-100 text-slate-600 text-sm font-bold rounded-xl">ยกเลิก</button>
-        <button onclick="submitAnnouncementForm()" class="px-5 py-2.5 bg-indigo-600 text-white text-sm font-bold rounded-xl shadow-md">ประกาศออกบอร์ด</button>
-      </div>
-    </div>
-  </div>
+  <footer class="bg-white border-t border-slate-100 py-6 text-center text-sm text-slate-400 mt-auto">
+    &copy; 2026 6/1 Smart Hub - มัธยมศึกษาปีที่ 6/MS1
+  </footer>
 
   <script>
-    // 🌐 1. นำลิงก์ Web App URL จากการ Deploy ใน Google Apps Script มาแทนค่าตรงนี้ครับ
-    const BACKEND_API_URL = "https://script.google.com/macros/s/AKfycbyp6ss9sXUBngTzce4cCY871Xpp-yGbpRdFDqwF0QcxkECqqSQcgOCZo9jQb0-tWxeK/exec"; 
-    
-    // 🔒 2. รหัสเชื่อมต่อความปลอดภัย (ตรงกับค่า SECRET_KEY ใน Code.gs)
-    const SECRET_KEY = "SW61_SUPER_SECRET_TOKEN_2026";
+    // 🔴 [สำคัญ] วาง URL ที่ได้จาก Google Apps Script (ในขั้นตอนที่ 1) ไว้ที่นี่ครับ
+    const BACKEND_API_URL = "🔴วาง_WEB_APP_URL_ที่นี่🔴";
 
-    // ตัวแปรเก็บข้อมูลสิทธิ์จำลองผู้ใช้ของ Session
     let currentUser = null;
-    let allAssignmentsCache = [];
+    let globalAssignments = [];
 
-    // ฟังก์ชันยิง API กลางแทนคำสั่ง google.script.run เดิม
-    async function callBackend(action, payload = {}) {
+    const mockStudents = [
+      { id: 1, fullName: "นายชัยพร ทูนมาก", nickname: "ป๋อ" }, { id: 2, fullName: "นายชยากร เอี่ยมจันทร์", nickname: "การ์ด" },
+      { id: 3, fullName: "นายอาทิวะราห์ กว้านสกุล", nickname: "ปอนด์" }, { id: 4, fullName: "นายณภัทร เจือจาน", nickname: "ริว" },
+      { id: 5, fullName: "นายศิวา พุฒซ้อน", nickname: "วา" }, { id: 6, fullName: "นายอณุศิษฎ์ ซุ้ยวงษา", nickname: "ซัน" },
+      { id: 7, fullName: "นายณัฐวุฒิ ฐานิวัฒน์", nickname: "โฟกัส" }, { id: 8, fullName: "นายเกียรติศักดิ์ ยุรยาตร", nickname: "เก็ต" },
+      { id: 9, fullName: "นายพณเรศร์ คงไทย", nickname: "เซเว่น" }, { id: 10, fullName: "นางสาวนภสร ขุมเพ็ชร", nickname: "ฟอง" },
+      { id: 11, fullName: "นางสาวประภัสสร ประสงค์ทรัพย์", nickname: "มะนาว" }, { id: 12, fullName: "นางสาวปวริศา เพชรรุ่งนภา", nickname: "บีญ่า" },
+      { id: 13, fullName: "นางสาวธัชชา ทองสุ่น", nickname: "คิตตี้" }, { id: 14, fullName: "นางสาวณิชกมล คร้ามมี", nickname: "นิว" },
+      { id: 15, fullName: "นางสาวนวนันทร์ มาลัยบุตร", nickname: "นันท์" }, { id: 16, fullName: "นางสาวพชรธิดา มัฌชิมา", nickname: "ข้าวเหนียว" },
+      { id: 17, fullName: "นางสาวธนันญดา อินจับ", nickname: "บิว" }, { id: 18, fullName: "นางสาวณัฐวตีย์ ติ๊บปินวงค์", nickname: "ต้นเตย" },
+      { id: 19, fullName: "นางสาวพาขวัญ แดงเม้า", nickname: "เตย" }, { id: 20, fullName: "นางสาววรณัน ทองสุทธิ์", nickname: "วิว" },
+      { id: 21, fullName: "นางสาวปรียาดา ม่านกลาง", nickname: "แบม" }, { id: 22, fullName: "นางสาวพิชญ์สิตา ทุมเพชร", nickname: "ทอฝัน" },
+      { id: 23, fullName: "นางสาวอัญธิชา เที่ยงธรรม", nickname: "แตงโม" }, { id: 24, fullName: "นางสาวรวินท์พร ลิ้มฤกษ์ลำรึก", nickname: "อิม" },
+      { id: 25, fullName: "นางสาวกริษา เที่ยงแท้", nickname: "กีต้าร์" }, { id: 26, fullName: "นางสาวกัญญาภัค ทิมทอง", nickname: "โบนัส" },
+      { id: 27, fullName: "นางสาวนภาพร จีนาวุฒิ", nickname: "ไอติม" }, { id: 28, fullName: "นางสาวณัฐธัญญา จิตรนึก", nickname: "โฟม" },
+      { id: 29, fullName: "นางสาวธนัชพร อินโต", nickname: "กานต์" }, { id: 30, fullName: "นางสาวศุภลักษณ์ โกฏิละออง", nickname: "พะลัก" },
+      { id: 31, fullName: "นางสาวอาทิมา หงษ์สา", nickname: "ซิน" }, { id: 32, fullName: "นางสาวชุติกาญจน์ คำทองคง", nickname: "ไนน์" },
+      { id: 33, fullName: "นางสาวปัณฑารีย์ บัวดิษฐ", nickname: "ฮาร์พ" }, { id: 34, fullName: "นางสาวอัฐภิญญา ศรีเนตร", nickname: "ข้าวหอม" },
+      { id: 35, fullName: "นางสาวทิโนทัย ทุ่งเก้า", nickname: "มีน" }, { id: 36, fullName: "นางสาวนิรามัย ปราศจาก", nickname: "ใบเฟิร์น" },
+      { id: 37, fullName: "นางสาวกฤตยา เคนพละ", nickname: "นาย" }, { id: 38, fullName: "นางสาวเพ็ญพิชชา พรมชาติ", nickname: "พลอย" },
+      { id: 39, fullName: "นางสาวเปรมยุดา เคียงคู่", nickname: "เอเชีย" }, { id: 40, fullName: "นางสาววัชรภรณ์ ลุ่มล่า", nickname: "ขวัญ" }
+    ];
+
+    // ฟังก์ชันเสริมสำหรับใช้ยิง API ไปยัง Google Apps Script หลังบ้าน
+    async function apiFetch(action, method = 'GET', payload = null) {
       try {
-        const response = await fetch(BACKEND_API_URL, {
-          method: "POST",
-          body: JSON.stringify({
-            apiKey: SECRET_KEY,
-            action: action,
-            payload: payload
-          })
-        });
-        if (!response.ok) throw new Error("Network status error");
-        return await response.json();
-      } catch (error) {
-        console.error("API Error:", error);
-        alert("🌐 ไม่สามารถติดต่อ Server ระบบหลังบ้านได้ โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ต");
-        return { success: false, message: error.toString() };
+        if (method === 'GET') {
+          let url = `${BACKEND_API_URL}?action=${action}`;
+          if (payload) {
+            for (let key in payload) {
+              url += `&${key}=${encodeURIComponent(payload[key])}`;
+            }
+          }
+          const response = await fetch(url);
+          return await response.json();
+        } else {
+          const response = await fetch(BACKEND_API_URL, {
+            method: 'POST',
+            redirect: 'follow',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({ action: action, payload: payload })
+          });
+          return await response.json();
+        }
+      } catch (err) {
+        console.error("API Error:", err);
+        return method === 'GET' ? [] : { success: false, message: "เครือข่ายขัดข้อง" };
       }
     }
 
-    // ระบบทำงานเริ่มต้นเมื่อหน้าจอโหลดเสร็จ
-    document.addEventListener("DOMContentLoaded", function() {
+    window.addEventListener('DOMContentLoaded', () => {
       const savedUser = localStorage.getItem('sw_remembered_user');
-      if (savedUser) {
-        try {
-          const userObj = JSON.parse(savedUser);
-          executeLoginProcedure(userObj);
-          document.getElementById('rememberMe').checked = true;
-        } catch(e) {
-          localStorage.removeItem('sw_remembered_user');
+      if(savedUser){
+        try{
+            currentUser = JSON.parse(savedUser);
+            initDashboard();
+        }catch(e){
+            logout();
         }
-      }
+      }else{
+        showPage('loginPage');
+     }
     });
 
-    // ปุ่มกดคุมการทำงาน Login หน้าบ้าน
-    async function handleLogin() {
-      const userEl = document.getElementById('username');
-      const passEl = document.getElementById('password');
-      const remCheck = document.getElementById('rememberMe');
+    function clearLoginSession() {
+      document.getElementById('splashPage').classList.add('hidden');
+      document.getElementById('loginPage').classList.remove('hidden');
+      document.getElementById('loginPage').classList.add('active');
+    }
 
-      if(!userEl.value.trim() || !passEl.value.trim()) {
-        alert('🔒 กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบถ้วน');
+    function showPage(pageId) {
+      document.getElementById('splashPage').classList.remove('active');
+      document.getElementById('splashPage').classList.add('hidden');
+      document.getElementById('loginPage').classList.remove('active');
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('dashboardPage').classList.remove('active');
+      document.getElementById('formPage').classList.remove('active');
+      
+      if(pageId === 'dashboardPage') {
+        document.getElementById('dashboardPage').classList.add('active');
+        document.getElementById('systemNavbar').classList.remove('hidden');
+      } else if(pageId === 'formPage') {
+        document.getElementById('formPage').classList.add('active');
+        document.getElementById('systemNavbar').classList.remove('hidden');
+      } else {
+        document.getElementById('loginPage').classList.add('active');
+        document.getElementById('loginPage').classList.remove('hidden');
+        document.getElementById('systemNavbar').classList.add('hidden');
+      }
+    }
+
+    function switchMenu(menuName) {
+      const contents = document.querySelectorAll('.menu-content');
+      contents.forEach(content => content.classList.remove('active'));
+      
+      const buttons = document.querySelectorAll('#systemNavbar button[id^="menu-btn-"]');
+      buttons.forEach(btn => {
+        btn.classList.remove('text-blue-600', 'bg-white', 'shadow-xs', 'font-bold');
+        btn.classList.add('text-slate-600', 'hover:text-slate-900', 'font-medium');
+      });
+
+      document.getElementById(`menu-content-${menuName}`).classList.add('active');
+      const targetBtn = document.getElementById(`menu-btn-${menuName}`);
+      if(targetBtn) {
+        targetBtn.classList.remove('text-slate-600', 'hover:text-slate-900', 'font-medium');
+        
+        if (menuName === 'contact') {
+          targetBtn.classList.add('text-emerald-600', 'bg-white', 'shadow-xs', 'font-bold');
+        } else {
+          targetBtn.classList.add('text-blue-600', 'bg-white', 'shadow-xs', 'font-bold');
+        }
+      }
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      const isRemember = document.getElementById('rememberMe').checked;
+      const errorDiv = document.getElementById('loginError');
+      const btn = document.getElementById('loginBtn');
+      
+      errorDiv.classList.add('hidden');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-circle-notch animate-spin mr-2"></i>กำลังตรวจสอบข้อมูล...';
+      
+      const response = await apiFetch('loginUser', 'POST', { user: user, pass: pass });
+      
+      btn.disabled = false;
+      btn.innerHTML = 'เข้าสู่ระบบ 🚀';
+      if(response && response.success) {
+        currentUser = response;
+        if (isRemember) {
+          localStorage.setItem('sw_remembered_user', JSON.stringify(response));
+        }
+        initDashboard();
+      } else {
+        errorDiv.innerText = response ? response.message : "ไม่สามารถติดต่อเซิร์ฟเวอร์ได้";
+        errorDiv.classList.remove('hidden');
+      }
+    }
+
+    function initDashboard() {
+      showPage('dashboardPage');
+      switchMenu('home'); 
+      
+      const uName = currentUser.nickname ? `${currentUser.fullName} (${currentUser.nickname})` : currentUser.fullName;
+      document.getElementById('userDisplayName').innerText = "สวัสดี, " + (currentUser.nickname ? "คุณ" + currentUser.nickname : currentUser.fullName);
+      document.getElementById('userRoleTag').innerText = currentUser.role === "ClassLeader" ? "👑 หัวหน้าห้อง / Admin" : "👤 นักเรียนห้อง 6/1";
+      
+      document.getElementById('contactSenderName').value = uName;
+
+      if(currentUser.role === "ClassLeader") {
+        document.getElementById('addAnnBtn').classList.remove('hidden');
+      }
+
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const currentDayName = days[new Date().getDay()];
+      const defaultDay = (currentDayName === 'Sunday' || currentDayName === 'Saturday') ? 'Monday' : currentDayName;
+      
+      document.getElementById('daySelector').value = defaultDay;
+      handleDayChange(defaultDay);
+      
+      loadAssignments();
+      loadAnnouncements();
+      renderStudents(mockStudents);
+    }
+
+    function handleDayChange(dayName) {
+      loadSchedule(dayName);
+      loadCleaningDuty(dayName);
+    }
+
+    async function sendContactToLine(e) {
+      e.preventDefault();
+      const btn = document.getElementById('sendLineBtn');
+      const alertBox = document.getElementById('contactStatusAlert');
+      const messageContent = document.getElementById('contactMessage').value;
+      const senderName = document.getElementById('contactSenderName').value;
+
+      alertBox.classList.add('hidden');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-circle-notch animate-spin mr-2"></i>กำลังยิงข้อความเข้า LINE...';
+
+      const response = await apiFetch('sendContactToLineNotify', 'POST', { senderName: senderName, messageContent: messageContent });
+      
+      btn.disabled = false;
+      btn.innerHTML = 'ส่งข้อความเข้า LINE หัวหน้าห้อง 🚀';
+      
+      alertBox.classList.remove('hidden', 'bg-rose-50', 'text-rose-600', 'bg-emerald-50', 'text-emerald-600');
+      if (response && response.success) {
+        alertBox.classList.add('bg-emerald-50', 'text-emerald-600');
+        alertBox.innerText = '🎉 ส่งข้อความสำเร็จ! ระบบได้ยิงแจ้งเตือนเข้า LINE หัวหน้าเรียบร้อยแล้ว';
+        document.getElementById('contactMessage').value = ''; 
+      } else {
+        alertBox.classList.add('bg-rose-50', 'text-rose-600');
+        alertBox.innerText = '❌ เกิดข้อผิดพลาด: ' + (response ? response.message : "การส่งข้อมูลล้มเหลว");
+      }
+    }
+
+    async function loadSchedule(dayName) {
+      const tbody = document.getElementById('scheduleTableBody');
+      tbody.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-slate-400"><i class="fa-solid fa-spinner animate-spin mr-2"></i>กำลังดึงตารางเรียน...</td></tr>';
+      
+      const schedule = await apiFetch('getScheduleByDay', 'GET', { dayName: dayName });
+      
+      if(!schedule || schedule.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-slate-400">🎉 วันนี้ไม่มีคาบเรียน สบายเลย!</td></tr>';
         return;
       }
+      let html = '';
+      schedule.forEach(row => {
+        const isLunch = row.subjectName.includes("พักกลางวัน");
+        html += `
+          <tr class="${isLunch ? 'bg-amber-50/60 font-semibold' : 'hover:bg-slate-50/50'}">
+            <td class="py-4 px-4 text-center font-bold text-slate-400">${isLunch ? '🍱' : row.period}</td>
+            <td class="py-4 px-4 text-slate-600 font-medium">${row.timeSlot} น.</td>
+            <td class="py-4 px-4 font-semibold text-slate-900">${row.subjectName}</td>
+            <td class="py-4 px-4 text-slate-500">${row.teacher}</td>
+            <td class="py-4 px-4 text-center"><span class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg font-medium">${row.room}</span></td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    }
 
-      // เปลี่ยนมาเรียกใช้ระบบ API หลังบ้านตัวใหม่
-      const res = await callBackend("login", { username: userEl.value, password: passEl.value });
+    async function loadCleaningDuty(dayName) {
+      const dutyGrid = document.getElementById('cleaningDutyGrid');
+      dutyGrid.innerHTML = '<div class="col-span-full text-center py-4 text-slate-400 text-sm"><i class="fa-solid fa-spinner animate-spin mr-2"></i>กำลังดึงข้อมูลเวรประจำวัน...</div>';
       
-      if (res && res.success) {
-        if(remCheck.checked) {
-          localStorage.setItem('sw_remembered_user', JSON.stringify(res));
-        } else {
-          localStorage.removeItem('sw_remembered_user');
+      const dutyList = await apiFetch('getCleaningScheduleByDay', 'GET', { dayName: dayName });
+      
+      if(!dutyList || dutyList.length === 0) {
+        dutyGrid.innerHTML = '<div class="col-span-full text-center py-4 text-slate-400 text-sm">🎉 วันนี้ไม่มีเวรทำความสะอาด</div>';
+        return;
+      }
+      let html = '';
+      dutyList.forEach(student => {
+        html += `
+          <div class="bg-slate-50/70 p-4 rounded-2xl border border-slate-100 flex items-center space-x-4 hover:bg-blue-50/40 hover:border-blue-100 transition-all">
+            <div class="bg-blue-600 text-white font-bold text-sm w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-sm shadow-blue-500/20">${student.id}</div>
+            <div class="min-w-0 flex-grow">
+              <p class="font-bold text-slate-900 text-base truncate">${student.nickname || '-'}</p>
+              <p class="text-xs text-slate-400 font-medium truncate">${student.fullName}</p>
+            </div>
+          </div>
+        `;
+      });
+      dutyGrid.innerHTML = html;
+    }
+
+    async function loadAssignments() {
+      const mainGrid = document.getElementById('assignmentGrid');
+      const urgentGrid = document.getElementById('urgentGrid');
+      const noUrgentAlert = document.getElementById('noUrgentAlert');
+      
+      mainGrid.innerHTML = '<div class="col-span-full text-center py-8 text-slate-400"><i class="fa-solid fa-spinner animate-spin mr-2"></i>กำลังดึงการบ้าน...</div>';
+      urgentGrid.innerHTML = '';
+      
+      const data = await apiFetch('getActiveAssignments', 'GET');
+      
+      globalAssignments = data || [];
+      document.getElementById('statActiveJobs').innerText = globalAssignments.length;
+
+      if(globalAssignments.length === 0) {
+        mainGrid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400 border border-dashed border-slate-200 rounded-3xl"><p>🌴 ไม่มีงานค้างเลย สุดยอดมาก!</p></div>';
+        noUrgentAlert.classList.remove('hidden');
+        return;
+      }
+      
+      let mainHtml = ''; let urgentHtml = ''; let urgentCount = 0;
+      const today = new Date(); today.setHours(0,0,0,0);
+
+      globalAssignments.forEach(item => {
+        const deleteBtnHtml = currentUser.role === "ClassLeader" 
+          ? `<button onclick="handleDeleteAssignment('${item.id}')" class="text-sm text-rose-500 hover:text-rose-700 bg-rose-50 px-3 py-2 rounded-xl"><i class="fa-solid fa-trash"></i></button>` : '';
+        const scoreBadge = item.maxScore && item.maxScore !== '-' ? `<span class="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-lg text-xs font-bold">💯 ${item.maxScore} คะแนน</span>` : '';
+
+        let formattedDueDate = item.dueDate;
+        if(item.dueDate && item.dueDate.includes("-")) {
+          const parts = item.dueDate.split("-");
+          formattedDueDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
         }
-        executeLoginProcedure(res);
-      } else {
-        alert(res.message || '🔒 ตรวจพบข้อผิดพลาด รหัสผ่านไม่ถูกต้อง');
-      }
+
+        const due = new Date(item.dueDate); due.setHours(0,0,0,0);
+        const diffDays = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
+        let daysText = ''; let isUrgent = false;
+
+        if (diffDays < 0) { daysText = `⚠️ เลยกำหนดมาแล้ว ${Math.abs(diffDays)} วัน!`; isUrgent = true; }
+        else if (diffDays === 0) { daysText = `🚨 ส่งวันนี้แล้ว!!`; isUrgent = true; }
+        else if (diffDays <= 3) { daysText = `⏳ เหลือเวลาส่ง ${diffDays} วัน`; isUrgent = true; }
+
+        const cardContent = `
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 relative hover:shadow-md transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">${item.subject}</span>
+                ${scoreBadge}
+              </div>
+              <h4 class="font-bold text-slate-900 text-base mt-2">${item.title}</h4>
+              <p class="text-sm text-slate-500 mt-2 whitespace-pre-line leading-relaxed">${item.description || '-'}</p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <div class="flex flex-col">
+                <span class="text-xs text-slate-400 font-medium">📅 กำหนดส่ง: ${formattedDueDate}</span>
+                ${isUrgent ? `<span class="text-xs font-bold text-rose-500 mt-1">${daysText}</span>` : ''}
+              </div>
+              <div class="flex items-center space-x-2">
+                <button onclick="editAssignment('${item.id}')" class="text-sm text-blue-600 bg-blue-50 px-3.5 py-2 rounded-xl font-medium"><i class="fa-solid fa-pen-to-square"></i> แก้ไข</button>
+                ${deleteBtnHtml}
+              </div>
+            </div>
+          </div>
+        `;
+        mainHtml += cardContent;
+        if (isUrgent) { urgentHtml += cardContent; urgentCount++; }
+      });
+      
+      mainGrid.innerHTML = mainHtml;
+      if (urgentCount > 0) { urgentGrid.innerHTML = urgentHtml; noUrgentAlert.classList.add('hidden'); } 
+      else { noUrgentAlert.classList.remove('hidden'); }
     }
 
-    // กระบวนการตั้งค่าระบบและจัดสรรข้อมูลหลัง Login ผ่านการยืนยัน
-    function executeLoginProcedure(userObj) {
-      currentUser = userObj;
+    async function loadAnnouncements() {
+      const container = document.getElementById('announcementList');
+      const homeContainer = document.getElementById('homeAnnouncementList');
+
+      const list = await apiFetch('getAnnouncements', 'GET');
       
-      // อัปเดต UI หน้าจอหลัก
-      document.getElementById('userDisplayName').innerText = currentUser.nickname || currentUser.fullName;
-      document.getElementById('userDisplayRole').innerText = currentUser.role === 'ClassLeader' ? '👑 หัวหน้าห้อง' : 'Student';
-      document.getElementById('mobUserDisplayName').innerText = currentUser.nickname || currentUser.fullName;
-      document.getElementById('mobUserDisplayRole').innerText = currentUser.role === 'ClassLeader' ? '👑 หัวหน้าห้อง' : 'Student';
-      document.getElementById('welcomeName').innerText = currentUser.fullName;
+      document.getElementById('statNewsCount').innerText = list ? list.length : 0;
 
-      // 👑 ป้องกันสิทธิ์ระดับหน้าบ้าน: ซ่อน/แสดง ปุ่มเพิ่มประกาศสำหรับหัวหน้าห้องเท่านั้น
-      const addAnnouncementBtn = document.getElementById('addAnnouncementBtn');
-      if (addAnnouncementBtn) {
-        if (currentUser.role === 'ClassLeader') {
-          addAnnouncementBtn.classList.remove('hidden');
-        } else {
-          addAnnouncementBtn.classList.add('hidden');
-        }
-      }
-
-      showPage('dashboardPage');
-      
-      // ค้นหาและตั้งเวลาเปิดตารางเรียนตามวันปัจจุบันของระบบ
-      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      const thaiDays = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
-      const currentDayIndex = new Date().getDay();
-      
-      let targetDay = days[currentDayIndex];
-      let displayThai = thaiDays[currentDayIndex];
-      
-      if(currentDayIndex === 0 || currentDayIndex === 6) {
-        targetDay = 'Monday';
-        displayThai = 'จันทร์ (วันหยุด)';
-      }
-      
-      document.getElementById('currentDayThai').innerText = displayThai;
-      loadSchedule(targetDay);
-    }
-
-    // ฟังก์ชันควบคุมเปิดหน้า Page View หลัก
-    function showPage(pageId) {
-      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
-    }
-
-    // ฟังก์ชันสลับเมนูย่อยของแถบ Navbar
-    function switchMenu(menuId) {
-      document.querySelectorAll('.menu-view').forEach(m => m.classList.add('hidden'));
-      document.getElementById('menu-' + menuId).classList.remove('hidden');
-
-      document.querySelectorAll('#systemNavbar button').forEach(b => b.classList.remove('active', 'bg-blue-50', 'text-blue-600'));
-      document.querySelectorAll('#mobileMenu button').forEach(b => b.classList.remove('active', 'bg-blue-50', 'text-blue-600'));
-
-      const activeNav = document.getElementById('nav-' + menuId);
-      const activeMob = document.getElementById('mob-' + menuId);
-      if(activeNav) activeNav.classList.add('active', 'bg-blue-50', 'text-blue-600');
-      if(activeMob) activeMob.classList.add('active', 'bg-blue-50', 'text-blue-600');
-
-      document.getElementById('mobileMenu').classList.remove('translate-x-0');
-      document.getElementById('mobileMenu').classList.add('-translate-x-full');
-      document.getElementById('mobileMenuOverlay').document?.getElementById('mobileMenuOverlay')?.classList.add('hidden');
-      
-      // โหลด API แต่ละหมวดเมื่อสลับหน้าจอ
-      if(menuId === 'homework') loadAssignments();
-      if(menuId === 'announcements') loadAnnouncements();
-      if(menuId === 'cleaning') {
-        const thaiDays = ['วันอาทิตย์', 'วันจันทร์', 'วันอังคาร', 'วันพุธ', 'วันพฤหัสบดี', 'วันศุกร์', 'วันเสาร์'];
-        let currentDayName = thaiDays[new Date().getDay()];
-        if(currentDayName === 'วันอาทิตย์' || currentDayName === 'วันเสาร์') currentDayName = 'วันจันทร์';
-        loadCleaning(currentDayName);
-      }
-    }
-
-    // ================= โหลดระบบตารางเรียน (Schedule Engine) =================
-    async function loadSchedule(dayName) {
-      document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active', 'bg-white', 'text-blue-600', 'text-pink-600', 'text-green-600', 'text-orange-600', 'text-blue-500'));
-      const shortDay = dayName.substring(0,3);
-      const activeTab = document.getElementById('btn-' + shortDay);
-      
-      if(activeTab) {
-        activeTab.classList.add('active', 'bg-white');
-        if(dayName === 'Monday') activeTab.classList.add('text-blue-600');
-        if(dayName === 'Tuesday') activeTab.classList.add('text-pink-600');
-        if(dayName === 'Wednesday') activeTab.classList.add('text-green-600');
-        if(dayName === 'Thursday') activeTab.classList.add('text-orange-600');
-        if(dayName === 'Friday') activeTab.classList.add('text-blue-500');
-      }
-
-      const container = document.getElementById('scheduleContainer');
-      container.innerHTML = `<div class="text-center py-10 text-slate-400"><i class="fa-solid fa-circle-notch fa-spin text-2xl mr-2"></i> กำลังโหลดตารางเรียน...</div>`;
-
-      const list = await callBackend("getSchedule", { dayName: dayName });
-      
       if (!list || list.length === 0) {
-        container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center border border-slate-100 font-semibold text-slate-400">☀️ ไม่มีตารางการเรียนในระบบของวันนี้</div>`;
+        const emptyHtml = '<div class="text-center py-8 text-slate-400 text-sm">🕊️ ยังไม่มีประกาศใหม่ในสัปดาห์นี้</div>';
+        container.innerHTML = emptyHtml;
+        if (homeContainer) homeContainer.innerHTML = emptyHtml;
         return;
       }
 
       let html = '';
       list.forEach(item => {
+        const delBtn = currentUser.role === "ClassLeader"
+          ? `<button onclick="handleDeleteAnn('${item.id}')" class="text-xs text-rose-500 font-bold ml-2">ลบ</button>` : '';
+
         html += `
-          <div class="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-slate-100 flex items-center justify-between hover:shadow-md transition-all">
-            <div class="flex items-center space-x-4">
-              <div class="w-12 h-12 bg-slate-50 border border-slate-100 rounded-xl flex flex-col justify-center items-center text-slate-700">
-                <span class="text-xs font-bold opacity-60">คาบ</span>
-                <span class="text-base font-black">${item.period}</span>
-              </div>
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-sm">
+            <p class="text-slate-800 font-medium whitespace-pre-line">${item.content}</p>
+            <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+              <span>📣 โดย: ${item.postedBy}</span>
               <div>
-                <h4 class="font-bold text-slate-900 text-base md:text-lg">${item.subjectName}</h4>
-                <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 font-medium mt-0.5">
-                  <span><i class="fa-solid fa-clock opacity-60 mr-1"></i>${item.timeSlot} น.</span>
-                  <span><i class="fa-solid fa-user-tie opacity-60 mr-1"></i>${item.teacher || '-'}</span>
-                </div>
+                <span>⏰ ${item.date}</span>
+                ${delBtn}
               </div>
             </div>
-            <div class="bg-slate-50 border border-slate-100 text-slate-700 text-xs font-bold px-3 py-2 rounded-xl flex items-center space-x-1">
-              <i class="fa-solid fa-location-dot text-blue-500"></i>
-              <span>${item.room || 'ห้องเรียน'}</span>
-            </div>
-          </div>`;
+          </div>
+        `;
       });
       container.innerHTML = html;
-    }
 
-    // ================= โหลดระบบการบ้าน (Assignments Board Engine) =================
-    async function loadAssignments() {
-      const grid = document.getElementById('assignmentsGrid');
-      grid.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400"><i class="fa-solid fa-circle-notch fa-spin text-2xl mr-2"></i> กำลังดึงการบ้านล่าสุด...</div>`;
-      
-      const list = await callBackend("getAssignments");
-      allAssignmentsCache = list || [];
-      renderAssignments();
-    }
-
-    function renderAssignments() {
-      const grid = document.getElementById('assignmentsGrid');
-      const isUrgentOnly = document.getElementById('urgentFilter').checked;
-      
-      let filtered = allAssignmentsCache;
-      
-      if(isUrgentOnly) {
-        const today = new Date();
-        filtered = allAssignmentsCache.filter(item => {
-          if(!item.dueDate) return false;
-          const due = new Date(item.dueDate);
-          const timeDiff = due.getTime() - today.getTime();
-          const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-          return daysDiff >= 0 && daysDiff <= 3;
+      if (homeContainer) {
+        const latest = list.slice(0, 3);
+        let homeHtml = '';
+        latest.forEach(item => {
+          homeHtml += `
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <p class="text-slate-800 font-medium whitespace-pre-line">${item.content}</p>
+              <div class="mt-2 text-xs text-slate-400">📣 ${item.postedBy} • ⏰ ${item.date}</div>
+            </div>
+          `;
         });
+        homeContainer.innerHTML = homeHtml;
       }
+    }
 
-      if(filtered.length === 0) {
-        grid.innerHTML = `<div class="col-span-full bg-white rounded-3xl p-10 text-center border border-slate-100 text-slate-400 font-medium">🎉 ยินดีด้วย! ไม่มีรายการค้างส่งในการกรองนี้</div>`;
+    async function openAnnPrompt() {
+      const msg = prompt("📢 พิมพ์ข้อความแจ้งเตือนบอร์ดข่าวห้องเรียนที่นี่:");
+      if (msg && msg.trim() !== "") {
+        const res = await apiFetch('saveAnnouncement', 'POST', {
+          msg: msg,
+          postedBy: currentUser.nickname || currentUser.fullName,
+          role: currentUser.role
+        });
+        if(res && res.success) loadAnnouncements();
+      }
+    }
+
+    async function handleDeleteAnn(id) {
+      if (confirm("🗑️ ต้องการลบประกาศนี้?")) {
+        const res = await apiFetch('deleteAnnouncement', 'POST', { id: id, role: currentUser.role });
+        if(res && res.success) loadAnnouncements();
+      }
+    }
+
+    function renderStudents(studentsList) {
+      const tbody = document.getElementById('studentTableBody');
+      if(studentsList.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="py-6 text-center text-slate-400 text-sm">❌ ไม่พบข้อมูลรายชื่อนักเรียน</td></tr>';
         return;
       }
-
       let html = '';
-      filtered.forEach(item => {
-        let dateColor = "text-slate-500 bg-slate-50 border-slate-100";
-        let labelUrgent = "";
-        
-        if(item.dueDate) {
-          const today = new Date();
-          const due = new Date(item.dueDate);
-          const diff = Math.ceil((due.getTime() - today.getTime()) / (1000 * 3600 * 24));
-          if(diff >= 0 && diff <= 3) {
-            dateColor = "text-amber-700 bg-amber-50 border-amber-100";
-            labelUrgent = `<span class="bg-red-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-md animate-pulse">งานด่วน!</span>`;
-          } else if(diff < 0) {
-            dateColor = "text-red-600 bg-red-50 border-red-100";
-            labelUrgent = `<span class="bg-red-600 text-white text-[10px] font-black px-1.5 py-0.5 rounded-md">เลยกำหนด</span>`;
-          }
-        }
-
-        const isLeader = (currentUser && currentUser.role === 'ClassLeader');
-        const managementButtons = isLeader ? `
-          <div class="flex items-center space-x-1 border-t border-slate-50 pt-3 mt-2">
-            <button onclick="editAssignment('${item.id}')" class="flex-1 py-1.5 text-xs bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold rounded-lg transition-all"><i class="fa-solid fa-pen-to-square mr-1"></i>แก้ไข</button>
-            <button onclick="handleDeleteAssignment('${item.id}')" class="px-3 py-1.5 text-xs bg-red-50 hover:bg-red-100 border border-red-100 text-red-600 font-bold rounded-lg transition-all"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        ` : '';
-
+      studentsList.forEach(student => {
         html += `
-          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-all">
-            <div class="space-y-2.5">
-              <div class="flex items-center justify-between gap-2">
-                <span class="text-xs font-black text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg truncate max-w-[70%]">${item.subject}</span>
-                <div class="flex items-center space-x-1">${labelUrgent} <span class="text-[10px] font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100">${item.id}</span></div>
-              </div>
-              <h3 class="font-extrabold text-slate-900 text-base line-clamp-1">${item.title}</h3>
-              <p class="text-xs text-slate-500 font-medium whitespace-pre-line line-clamp-3">${item.description || 'ไม่มีรายละเอียดเพิ่มเติม'}</p>
-            </div>
-            <div class="mt-4 space-y-2">
-              <div class="flex justify-between items-center text-xs font-bold">
-                <div class="px-2.5 py-1.5 rounded-xl border flex items-center space-x-1 ${dateColor}">
-                  <i class="fa-solid fa-calendar-days"></i>
-                  <span>ส่ง: ${item.dueDate || '-'}</span>
-                </div>
-                <span class="text-slate-400 font-medium">คะแนนเต็ม: <span class="text-slate-800 font-bold">${item.maxScore}</span></span>
-              </div>
-              ${managementButtons}
-            </div>
-          </div>`;
+          <tr class="hover:bg-slate-50/50">
+            <td class="py-3.5 px-6 text-center font-bold text-slate-400">${student.id}</td>
+            <td class="py-3.5 px-6 font-semibold text-slate-800">${student.fullName}</td>
+            <td class="py-3.5 px-6"><span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-lg text-sm">${student.nickname || '-'}</span></td>
+          </tr>
+        `;
       });
-      grid.innerHTML = html;
+      tbody.innerHTML = html;
     }
 
-    // ควบคุมการเปิด Modal เพิ่ม/แก้ไขการบ้าน
-    function openAssignmentModal() {
-      document.getElementById('asgId').value = '';
-      document.getElementById('asgSubject').value = '';
-      document.getElementById('asgTitle').value = '';
-      document.getElementById('asgDesc').value = '';
-      document.getElementById('asgScore').value = '-';
-      document.getElementById('asgDueDate').value = '';
-      document.getElementById('assignmentModalTitle').innerText = 'เพิ่มการบ้านใหม่';
-      document.getElementById('assignmentModal').classList.remove('hidden');
+    function filterStudents(searchTerm) {
+      const filtered = mockStudents.filter(s => s.fullName.includes(searchTerm) || s.nickname.includes(searchTerm));
+      renderStudents(filtered);
     }
 
-    function closeAssignmentModal() {
-      document.getElementById('assignmentModal').classList.add('hidden');
+    function navigateToFormPage() {
+      document.getElementById('asnId').value = '';
+      document.getElementById('assignmentForm').reset();
+      document.getElementById('asnSubject').value = ''; 
+      document.getElementById('formPageTitle').innerText = '✨ แจ้งการบ้านชิ้นใหม่';
+      showPage('formPage');
     }
 
     function editAssignment(id) {
-      const target = allAssignmentsCache.find(x => x.id === id);
-      if(!target) return;
-      document.getElementById('asgId').value = target.id;
-      document.getElementById('asgSubject').value = target.subject;
-      document.getElementById('asgTitle').value = target.title;
-      document.getElementById('asgDesc').value = target.description;
-      document.getElementById('asgScore').value = target.maxScore;
-      document.getElementById('asgDueDate').value = target.dueDate;
-      document.getElementById('assignmentModalTitle').innerText = 'แก้ไขข้อมูลการบ้าน';
-      document.getElementById('assignmentModal').classList.remove('hidden');
+      const task = globalAssignments.find(item => item.id.toString() === id.toString());
+      if(!task) return;
+      document.getElementById('asnId').value = task.id;
+      document.getElementById('asnSubject').value = task.subject; 
+      document.getElementById('asnTitle').value = task.title;
+      document.getElementById('asnDesc').value = task.description;
+      document.getElementById('asnMaxScore').value = task.maxScore === '-' ? '' : task.maxScore;
+      document.getElementById('asnDueDate').value = task.dueDate;
+      document.getElementById('formPageTitle').innerText = '🛠️ แก้ไขรายละเอียดการบ้าน';
+      showPage('formPage'); 
     }
 
-    // ปุ่มตกลงบันทึกฟอร์มการบ้านส่งขึ้น API
-    async function submitAssignmentForm() {
+    function navigateToDashboardPage() { showPage('dashboardPage'); }
+
+    async function submitAssignment(e) {
+      e.preventDefault();
       const payload = {
-        id: document.getElementById('asgId').value,
-        subject: document.getElementById('asgSubject').value.trim(),
-        title: document.getElementById('asgTitle').value.trim(),
-        description: document.getElementById('asgDesc').value.trim(),
-        maxScore: document.getElementById('asgScore').value.trim(),
-        dueDate: document.getElementById('asgDueDate').value
+        id: document.getElementById('asnId').value,
+        subject: document.getElementById('asnSubject').value,
+        title: document.getElementById('asnTitle').value,
+        description: document.getElementById('asnDesc').value,
+        maxScore: document.getElementById('asnMaxScore').value,
+        dueDate: document.getElementById('asnDueDate').value
       };
-
-      if(!payload.subject || !payload.title || !payload.dueDate) {
-        alert('⚠️ กรุณากรอกชื่อวิชา หัวข้องาน และวันส่งงานให้ครบถ้วน');
-        return;
-      }
-
-      closeAssignmentModal();
-      const res = await callBackend("saveAssignment", { assignmentData: payload });
-      if(res.success) {
-        loadAssignments();
-      } else {
-        alert(res.message);
+      
+      const res = await apiFetch('saveAssignment', 'POST', payload);
+      if(res && res.success) { 
+        showPage('dashboardPage'); 
+        switchMenu('homework'); 
+        loadAssignments(); 
       }
     }
 
-    // ปุ่มสั่งลบการบ้านออกจากระบบ
     async function handleDeleteAssignment(id) {
-      if(confirm('🗑️ ยืนยันต้องการลบข้อมูลงานชิ้นนี้อย่างถาวรใช่หรือไม่?')) {
-        const res = await callBackend("deleteAssignment", { id: id, role: currentUser.role });
-        if(res.success) {
-          loadAssignments();
-        } else {
-          alert(res.message);
-        }
+      if(confirm('🗑️ ยืนยันลบงานนี้อย่างถาวร?')) {
+        const res = await apiFetch('deleteAssignment', 'POST', { id: id, role: currentUser.role });
+        if(res && res.success) loadAssignments();
       }
     }
 
-    // =================📢 ระบบบอร์ดข่าวประกาศ (Announcements Engine) =================
-    async function loadAnnouncements() {
-      const listEl = document.getElementById('announcementsList');
-      listEl.innerHTML = `<div class="text-center py-10 text-slate-400"><i class="fa-solid fa-circle-notch fa-spin text-2xl mr-2"></i> กำลังอัปเดตบอร์ดประกาศข่าว...</div>`;
-      
-      const list = await callBackend("getAnnouncements");
-      
-      if(!list || list.length === 0) {
-        listEl.innerHTML = `<div class="bg-white rounded-3xl p-10 text-center border border-slate-100 font-semibold text-slate-400">🔔 บอร์ดข่าวสะอาดสะอ้าน ไม่มีประกาศใดๆ ในตอนนี้</div>`;
-        return;
-      }
-
-      let html = '';
-      list.forEach(item => {
-        const isLeader = (currentUser && currentUser.role === 'ClassLeader');
-        const deleteButton = isLeader ? `
-          <button onclick="handleDeleteAnnouncement('${item.id}')" class="text-xs font-bold text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg transition-all"><i class="fa-solid fa-trash mr-1"></i>ลบ</button>
-        ` : '';
-
-        html += `
-          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 space-y-3 relative hover:shadow-md transition-all">
-            <div class="flex justify-between items-start gap-4">
-              <div class="flex items-center space-x-2">
-                <span class="w-2 h-2 rounded-full bg-indigo-500 animate-ping"></span>
-                <span class="text-[11px] font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">ข่าวสารด่วน</span>
-              </div>
-              ${deleteButton}
-            </div>
-            <p class="text-sm md:text-base font-medium text-slate-800 whitespace-pre-line leading-relaxed">${item.content}</p>
-            <div class="flex justify-between items-center text-[11px] font-semibold text-slate-400 pt-2 border-t border-slate-50">
-              <span><i class="fa-solid fa-user-pen mr-1"></i>โพสต์โดย: ${item.postedBy}</span>
-              <span><i class="fa-solid fa-clock mr-1"></i>${item.date} น.</span>
-            </div>
-          </div>`;
-      });
-      listEl.innerHTML = html;
-    }
-
-    function openAnnouncementModal() {
-      // ตรวจสอบความปลอดภัยระดับหน้าบ้านก่อนเปิดฟอร์ม
-      if (!currentUser || currentUser.role !== 'ClassLeader') {
-        alert('🛑 เฉพาะหัวหน้าห้องเท่านั้นที่มีสิทธิ์เพิ่มประกาศได้');
-        return;
-      }
-      document.getElementById('annContent').value = '';
-      document.getElementById('announcementModal').classList.remove('hidden');
-    }
-
-    function closeAnnouncementModal() {
-      document.getElementById('announcementModal').classList.add('hidden');
-    }
-
-    async function submitAnnouncementForm() {
-      const content = document.getElementById('annContent').value.trim();
-      if(!content) {
-        alert('⚠️ กรุณากรอกเนื้อความประกาศข่าวสารให้เรียบร้อยก่อน');
-        return;
-      }
-      
-      closeAnnouncementModal();
-      const postedBy = currentUser.nickname || currentUser.fullName;
-      
-      const res = await callBackend("saveAnnouncement", { content: content, postedBy: postedBy, role: currentUser.role });
-      if(res.success) {
-        loadAnnouncements();
-      } else {
-        alert(res.message);
-      }
-    }
-
-    async function handleDeleteAnnouncement(id) {
-      if(confirm('🗑️ ยืนยันลบโพสต์ข่าวสารประกาศนี้ออกจากบอร์ดห้องเรียน?')) {
-        const res = await callBackend("deleteAnnouncement", { id: id, role: currentUser.role });
-        if(res.success) {
-          loadAnnouncements();
-        } else {
-          alert(res.message);
-        }
-      }
-    }
-
-    // =================🧹 ระบบตารางเวรรายวัน (Cleaning Schedule Engine) =================
-    async function loadCleaning(dayName) {
-      document.querySelectorAll('.clean-tab').forEach(b => b.classList.remove('active', 'bg-white', 'shadow-sm', 'text-slate-900'));
-      
-      let tabId = 'clean-Mon';
-      if(dayName === 'Anวันจันทร์' || dayName === 'วันจันทร์') tabId = 'clean-Mon';
-      if(dayName === 'วันอังคาร') tabId = 'clean-Tue';
-      if(dayName === 'วันพุธ') tabId = 'clean-Wed';
-      if(dayName === 'วันพฤหัสบดี') tabId = 'clean-Thu';
-      if(dayName === 'วันศุกร์') tabId = 'clean-Fri';
-      
-      const el = document.getElementById(tabId);
-      if(el) el.classList.add('active', 'bg-white', 'shadow-sm', 'text-slate-900');
-
-      const container = document.getElementById('cleaningContainer');
-      container.innerHTML = `<div class="text-center py-6 text-slate-400"><i class="fa-solid fa-circle-notch fa-spin text-xl mr-2"></i> กำลังโหลดเวรทำความสะอาด...</div>`;
-
-      const list = await callBackend("getCleaning", { dayName: dayName });
-      
-      if(!list || list.length === 0) {
-        container.innerHTML = `<p class="text-sm font-bold text-slate-400 py-4">☀️ วันหยุด หรือไม่มีรายชื่อเวรระบุในตารางระบบ</p>`;
-        return;
-      }
-
-      let html = `<div class="grid grid-cols-2 gap-2.5 text-left">`;
-      list.forEach(student => {
-        html += `
-          <div class="bg-slate-50 border border-slate-100 p-3 rounded-xl flex items-center space-x-3">
-            <div class="w-8 h-8 bg-blue-100 rounded-lg text-xs font-black text-blue-600 flex items-center justify-center">${student.id}</div>
-            <div class="flex flex-col truncate">
-              <span class="text-sm font-bold text-slate-800 truncate">${student.fullName}</span>
-              <span class="text-[11px] font-medium text-slate-400">ชื่อเล่น: ${student.nickname || '-'}</span>
-            </div>
-          </div>`;
-      });
-      html += `</div>`;
-      container.innerHTML = html;
-    }
-
-    // =================✉️ ระบบติดต่อหัวหน้าห้อง (Contact Engine LINE System) =================
-    async function handleSendContact() {
-      const msgEl = document.getElementById('contactMessage');
-      const btn = document.getElementById('btnSubmitContact');
-      
-      if(!msgEl.value.trim()) {
-        alert('⚠️ กรุณากรอกเรื่องราวข้อความที่ต้องการแจ้งก่อนกดส่ง');
-        return;
-      }
-
-      const msg = msgEl.value.trim();
-      msgEl.value = '';
-      
-      btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-sm mr-2"></i> กำลังเชื่อมโยง LINE API ยิงข้อความ...`;
-
-      const senderName = currentUser.fullName + ` (${currentUser.nickname || '-'}) เลขที่ผู้ส่ง: ${currentUser.studentId}`;
-      
-      const res = await callBackend("sendLine", { senderName: senderName, rawMessage: msg });
-      
-      btn.disabled = false;
-      btn.innerHTML = `<i class="fa-solid fa-paper-plane text-sm"></i> <span>ส่งคำร้องตรงถึงหัวหน้าห้อง</span>`;
-      
-      if(res && res.success) {
-        alert('🚀 สำเร็จ! ข้อความของคุณถูกส่งตรงไปยังห้องแชทของหัวหน้าห้องเรียบร้อยแล้ว เพื่อนจะติดต่อกลับโดยเร็ว');
-      } else {
-        alert('⚠️ จัดส่งไม่สำเร็จ: ' + (res.message || 'ตรวจพบข้อผิดพลาดฝั่ง LINE Token'));
-      }
-    }
-
-    // ระบบออกจากระบบ (Logout)
     function logout() { 
       currentUser = null; 
       localStorage.removeItem('sw_remembered_user'); 
@@ -809,7 +958,10 @@
       showPage('loginPage'); 
     }
 
-    // ระบบเปิด-ปิด แถบสไลด์เมนูแบบ Mobile View Drawer
+    document.getElementById('mobileMenu')?.classList.remove('translate-x-0');
+    document.getElementById('mobileMenu')?.classList.add('-translate-x-full');
+    document.getElementById('mobileMenuOverlay')?.classList.add('hidden');
+
     function toggleMobileMenu() {
       const menu = document.getElementById('mobileMenu');
       const overlay = document.getElementById('mobileMenuOverlay');
