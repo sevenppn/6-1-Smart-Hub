@@ -2,13 +2,11 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>6/1 Smart Hub</title>
     
-    <!-- เชื่อมต่อไฟล์ Manifest สำหรับ Add to Home Screen -->
     <link rel="manifest" href="manifest.json">
     
-    <!-- รองรับ Safari (iOS) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="6/1 Smart Hub">
@@ -22,12 +20,27 @@
             height: 100%;
             overflow: hidden;
             background-color: #f5f5f5;
+            
+            /* บล็อกคำสั่งนิ้วสัมผัสที่ทำให้เกิดการซูมในระดับ CSS */
+            touch-action: none; 
+            -webkit-user-select: none;
+            user-select: none;
+            
+            /* ป้องกันการเด้งหรือขยายหน้าจอเมื่อเลื่อนนิ้วเกินขอบ (Rubber-banding) */
+            position: fixed;
         }
+        
         iframe {
             width: 100%;
             height: 100%;
             border: none;
             display: block;
+            touch-action: none; 
+        }
+
+        /* 💡 ไม้ตาย: บล็อกไม่ให้เบราว์เซอร์ซูมหน้าจอเมื่อผู้ใช้กดจิ้มช่องพิมพ์ข้อความ (Input/Textarea) */
+        input, textarea, select {
+            font-size: 16px !important; /* iOS จะซูมอัตโนมัติถ้าขนาดฟอนต์เล็กกว่า 16px */
         }
     </style>
 </head>
@@ -35,13 +48,46 @@
 
     <iframe src="https://script.google.com/macros/s/AKfycbwMz7n4ImOZy13tkC9sYiEU-S1GZCGQqcz83j3nyQZkQgkLpQzqh8VHD2z9hcA0odXr/exec" allowfullscreen></iframe>
 
-    <!-- สคริปต์เปิดทำงาน Service Worker (จำเป็นสำหรับ PWA) -->
     <script>
+        // 1. ลงทะเบียน Service Worker (PWA)
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
             .then(reg => console.log('Service Worker ลงทะเบียนสำเร็จ!', reg))
             .catch(err => console.log('Service Worker ผิดพลาด:', err));
         }
+
+        /* ========================================================
+           🔥 สคริปต์บล็อกการซูมทุกกรณี (Anti-Zoom Ultimate Script)
+           ======================================================== */
+
+        // บล็อกการ Pinch to Zoom (กางนิ้วซูม) และ Double Tap (เคาะรัวเพื่อซูม)
+        document.addEventListener('touchstart', function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault(); // ห้ามใช้มากกว่า 1 นิ้ว
+            }
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            let now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault(); // ห้ามดับเบิ้ลแท็บ
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // บล็อกการซูมด้วยปุ่มลัดบนคีย์บอร์ด (Ctrl + บวก/ลบ) และการใช้ Wheel เมาส์ (สำหรับเปิดบน PC)
+        document.addEventListener('keydown', function (event) {
+            if (event.ctrlKey && (event.key === '+' || event.key === '-' || event.key === '=' || event.key === '0')) {
+                event.preventDefault();
+            }
+        });
+
+        document.addEventListener('wheel', function (event) {
+            if (event.ctrlKey) {
+                event.preventDefault(); // ห้ามกด Ctrl แล้วหมุนลูกกลิ้งเมาส์เพื่อซูม
+            }
+        }, { passive: false });
     </script>
 </body>
 </html>
