@@ -1,44 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no"">
-  <title>6/1 Smart Hub</title>
-  <style>
-    /* สไตล์สำหรับกล่องหุ้ม เพื่อเว้นระยะหลบติ่ง iPhone */
-    .iframe-container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      /* ดันเนื้อหาด้านบนลงมาหลบติ่ง */
-      padding-top: env(safe-area-inset-top); 
-      /* ดันเนื้อหาด้านล่างขึ้นมาหลบแถบโฮมขีดล่างของ iPhone (ถ้ามี) */
-      padding-bottom: env(safe-area-inset-bottom);
-      box-sizing: border-box;
-      background-color: #ffffff; /* กำหนดสีพื้นหลังตรงติ่งตามที่คุณต้องการ */
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6/1 Smart Hub</title>
+    
+    <!-- เชื่อมต่อไฟล์ Manifest สำหรับ Add to Home Screen -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- รองรับ Safari (iOS) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="6/1 Smart Hub">
+    <link rel="apple-touch-icon" href="https://img1.pic.in.th/images/6-1hub.png">
 
-    .responsive-iframe {
-      position: absolute;
-      /* ปรับ top ให้เริ่มจากขอบล่างของพื้นที่ปลอดภัย */
-      top: env(safe-area-inset-top); 
-      left: 0;
-      width: 100vw;
-      /* คำนวณความสูงใหม่ โดยหักระยะติ่งและแถบโฮมออก */
-      height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-      border: none;
-    }
-  </style>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-  <!-- เพิ่มคลาส iframe-container ที่นี่ -->
-  <div class="iframe-container"> 
-    <iframe id="myframe" class="responsive-iframe" src="" allowFullScreen></iframe>
-  </div>
-  <script>
-    const apps = new URL(window.location);
-    const formUrl = apps.searchParams.get('apps');
-    const url = decodeURIComponent(formUrl);
-    document.getElementById('myframe').src = url;
-  </script>
+
+    <iframe src="https://script.google.com/macros/s/AKfycbwMz7n4ImOZy13tkC9sYiEU-S1GZCGQqcz83j3nyQZkQgkLpQzqh8VHD2z9hcA0odXr/exec" allowfullscreen></iframe>
+
+    <!-- สคริปต์เปิดทำงาน Service Worker (จำเป็นสำหรับ PWA) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('Service Worker ลงทะเบียนสำเร็จ!', reg))
+            .catch(err => console.log('Service Worker ผิดพลาด:', err));
+        }
+    </script>
 </body>
 </html>
