@@ -42,11 +42,40 @@
         input, textarea, select {
             font-size: 16px !important; /* iOS จะซูมอัตโนมัติถ้าขนาดฟอนต์เล็กกว่า 16px */
         }
+
+        /* 🟢 สไตล์ปุ่มติดตั้ง "เพิ่มไปยังหน้าจอหลัก" (ลอยอยู่ด้านล่างสุดและอยู่เหนือ iframe) */
+        #installBtn {
+            display: none; /* เริ่มต้นจะซ่อนไว้ก่อน จะแสดงเมื่อเบราว์เซอร์พร้อมติดตั้ง */
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2563eb; /* สีน้ำเงินสวยงาม */
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50px; /* ทรงมนสวยๆ */
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* ใส่เงาให้ดูมีมิติ */
+            z-index: 99999; /* มั่นใจว่าอยู่หน้าสุดเหนือ iframe แน่นอน */
+            transition: all 0.3s ease;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        #installBtn:active {
+            transform: translateX(-50%) scale(0.95); /* เอฟเฟกต์ตอนกดปุ่มจะยุบลงนิดนึง */
+            background-color: #1d4ed8;
+        }
     </style>
 </head>
 <body>
 
     <iframe src="https://script.google.com/macros/s/AKfycbwK7BBpWA1wUyzLD6p0LWRyMy-7RFWvYnaMcs9KRr-Q_nyFdIUDmaCcEYHWlDQkVnua/exec" allowfullscreen></iframe>
+
+    <button id="installBtn">➕ เพิ่มไปยังหน้าจอหลัก</button>
 
     <script>
         // 1. ลงทะเบียน Service Worker (PWA)
@@ -57,7 +86,51 @@
         }
 
         /* ========================================================
-           🔥 สคริปต์บล็อกการซูมทุกกรณี (Anti-Zoom Ultimate Script)
+           ✨ ระบบดักจับคำสั่งติดตั้ง (Add to Home Screen)
+           ======================================================== */
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // บล็อกแถบแจ้งเตือนสุ่มๆ ของเบราว์เซอร์ไม่ให้ขึ้นกวนใจ
+            e.preventDefault();
+            // เก็บ Event ไว้เรียกใช้ตอนกดปุ่ม
+            deferredPrompt = e;
+            // เปิดให้ปุ่มติดตั้งแสดงผลขึ้นมาบนหน้าจอ
+            installBtn.style.display = 'block';
+        });
+
+        installBtn.addEventListener('click', () => {
+            if (!deferredPrompt) return;
+            
+            // ซ่อนปุ่มทันทีเพื่อป้องกันการกดซ้ำซ้อน
+            installBtn.style.display = 'none';
+            // เรียกป๊อปอัปติดตั้งของระบบขึ้นมา
+            deferredPrompt.prompt();
+            
+            // ตรวจสอบผลลัพธ์
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('ผู้ใช้ยอมรับการติดตั้ง 6/1 Smart Hub');
+                } else {
+                    console.log('ผู้ใช้ยกเลิกการติดตั้ง');
+                    // ถ้าผู้ใช้ยกเลิก ให้โชว์ปุ่มใหม่อีกครั้งเผื่อเขาอยากกดวันหลัง
+                    installBtn.style.display = 'block';
+                }
+                deferredPrompt = null;
+            });
+        });
+
+        // ซ่อนปุ่มอัตโนมัติหากติดตั้งลงเครื่องเสร็จเรียบร้อยแล้ว
+        window.addEventListener('appinstalled', () => {
+            installBtn.style.display = 'none';
+            deferredPrompt = null;
+            console.log('ติดตั้งแอปสำเร็จเรียบร้อย!');
+        });
+
+
+        /* ========================================================
+            🔥 สคริปต์บล็อกการซูมทุกกรณี (Anti-Zoom Ultimate Script)
            ======================================================== */
 
         // บล็อกการ Pinch to Zoom (กางนิ้วซูม) และ Double Tap (เคาะรัวเพื่อซูม)
